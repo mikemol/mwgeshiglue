@@ -1,10 +1,17 @@
 <?php
 
-// TODO: Allow path to GeSHi to be explicitly set.
-require_once('geshi/geshi.php');
+$mwggGeSHiPath = (
+		isset($mwggGeSHiPath) 		// Don't want to run is_string
+		&& is_string($mwggGeSHiPath)	// on an unset symbol.
+	) ? $mwggGeSHiPath : "$IP/extensions/geshi";
 
-// TODO: Allow path to language files to be explicitly set.
-$languagesPath = "$IP/extensions/geshi/geshi";
+// If $mwggGeSHiPath contains a trailing "/", strip it.
+if('/' == substr($mwggGeSHiPath, -1))
+	$mwggGeSHiPath = substr($mwggGeSHiPath, 0, -1);
+
+require_once("$mwggGeSHiPath/geshi.php");
+
+$languagesPath = "$mwggGeSHiPath/geshi";
  
 $wgExtensionFunctions[] = "MWGeSHiGlueInit";
 
